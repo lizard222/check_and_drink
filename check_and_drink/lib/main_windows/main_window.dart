@@ -1,5 +1,8 @@
+import 'package:check_and_drink/filter_windows.dart/filter_window.dart';
 import 'package:check_and_drink/main_windows/bottom_navigation_bar.dart';
 import 'package:check_and_drink/main_windows/favorites_window.dart';
+import 'package:check_and_drink/qr_windows/qr_first_window.dart';
+import 'package:check_and_drink/result_windows/search_result_window.dart';
 import 'package:flutter/material.dart';
 
 
@@ -9,7 +12,14 @@ class MainWindowScreen extends StatefulWidget {
 }
 
 class _MainWindowScreenState extends State<MainWindowScreen> {
-  
+      final TextEditingController _searchController = TextEditingController(); //Controller for search
+
+  @override
+  void dispose() {
+    _searchController.dispose(); // Dispose controller
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return 
@@ -25,17 +35,34 @@ class _MainWindowScreenState extends State<MainWindowScreen> {
 
               // Поисковая строка
               TextFormField(
+                   controller: _searchController,
                 decoration: InputDecoration(
                   hintText: 'Поиск...',
-                  prefixIcon: Icon(Icons.search),
+                  prefixIcon: const Icon(Icons.search),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
-                    borderSide:  BorderSide(color: Colors.grey, width: 1),
+                    borderSide:  const BorderSide(color: Colors.grey, width: 1),
                   ),
-                  
-                  filled: true,
+                   filled: true,
                   fillColor: Colors.white,
                 ),
+                onFieldSubmitted: (text) {
+                  if (text.trim().toLowerCase() == "franziskaner"){
+                    print(text.trim());
+                     Navigator.push(
+                       context,
+                       MaterialPageRoute(
+                         builder: (context) => SearchResultScreen(),
+                       ),
+                     );
+                  }
+                  else if (text.trim().isNotEmpty && text.trim().toLowerCase() != "franziskaner") {
+                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('В нашей базе напитков нет такого напитка')));
+                   } else {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Введите текст для поиска')));
+                   }
+                   
+                },
               ),
               SizedBox(height: 20),
 
@@ -44,7 +71,12 @@ class _MainWindowScreenState extends State<MainWindowScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   ElevatedButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => QrFirstScreen()),
+                  );
+                },
                     icon: Icon(Icons.qr_code_scanner),
                     label: Text('Поиск по QR-коду'),
                     style: ElevatedButton.styleFrom(
@@ -57,7 +89,12 @@ class _MainWindowScreenState extends State<MainWindowScreen> {
                   ),
                   SizedBox(height: 20),
                   ElevatedButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                                        Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FilterScreen()),
+                  );
+                    },
                     icon: Icon(Icons.filter_list),
                     label: Text('Поиск по фильтрам'),
                     style: ElevatedButton.styleFrom(

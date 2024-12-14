@@ -3,6 +3,7 @@ import 'package:check_and_drink/main_windows/favorites_window.dart';
 import 'package:check_and_drink/main_windows/main_window.dart';
 import 'package:check_and_drink/main_windows/tab_notifier.dart';
 import 'package:check_and_drink/main_windows/user_window.dart';
+import 'package:check_and_drink/qr_windows/qr_first_window.dart';
 import 'package:flutter/material.dart';
 
 
