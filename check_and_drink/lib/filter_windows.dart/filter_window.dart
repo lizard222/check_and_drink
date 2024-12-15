@@ -164,8 +164,8 @@ class _FilterScreenState extends State<FilterScreen> {
                          },
                       ),
 
-                SizedBox(height: 10),
-                           ElevatedButton(
+                SizedBox(height: 40),
+                ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color.fromARGB(255, 128, 0, 32),
                   foregroundColor: Colors.white, 

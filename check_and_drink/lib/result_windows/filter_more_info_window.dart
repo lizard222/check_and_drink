@@ -26,7 +26,7 @@ class _FilterMoreInfoScreenState extends State<FilterMoreInfoScreen> {
             icon: Icon(Icons.copy, color: Color.fromARGB(255, 128, 0, 32)),  
             onPressed: () {
               
-              Clipboard.setData(ClipboardData(text: "Chateau L’eclair Muscat"));
+              Clipboard.setData(ClipboardData(text: "Fess Parker Ashley’s"));
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Название скопировано')));
             },
           ),

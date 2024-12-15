@@ -5,7 +5,8 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:camera/camera.dart';
 
 class QrFirstScreen extends StatefulWidget {
-  const QrFirstScreen({super.key});
+  final String? targetRoute;
+  const QrFirstScreen({super.key, this.targetRoute});
 
   @override
   _QrFirstScreenState createState() => _QrFirstScreenState();
@@ -38,6 +39,14 @@ class _QrFirstScreenState extends State<QrFirstScreen> {
     }
     controller!.resumeCamera();
   }
+
+      void _navigateToTargetScreen(String scannedData) {
+       if (widget.targetRoute != null) {
+            Navigator.pushNamed(context, widget.targetRoute!, arguments: scannedData);
+       } else {
+           Navigator.pop(context, scannedData);
+       }
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +82,7 @@ class _QrFirstScreenState extends State<QrFirstScreen> {
                     ),
                      const SizedBox(width: 100),
                     IconButton(
-                      icon: const Icon(Icons.next_plan,
+                      icon: const Icon(Icons.qr_code,
                           color: Color.fromARGB(255, 128, 0, 32),
                           size: 35.0),
                       onPressed: () {
@@ -112,6 +121,7 @@ class _QrFirstScreenState extends State<QrFirstScreen> {
                     ),
                   ),
                 if (result != null)
+
                   Text(
                       'Result: ${result!.code}',
                        style: const TextStyle(
@@ -141,16 +151,41 @@ class _QrFirstScreenState extends State<QrFirstScreen> {
     );
   }
 
-  void _onQRViewCreated(QRViewController controller) {
-    setState(() {
-      this.controller = controller;
+
+
+void _onQRViewCreated(QRViewController controller) {
+  setState(() {
+    this.controller = controller;
+  });
+  controller.scannedDataStream.listen((scanData) {
+    // Показываем всплывающее сообщение
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text(
+          'Напиток успешно сканирован',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.green,
+        duration: Duration(seconds: 2), 
+      ),
+    );
+
+    
+    Future.delayed(const Duration(seconds: 2), () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => QrResultScreen(),
+        ),
+      );
     });
-    controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        result = scanData;
-      });
-    });
-  }
+
+    // Остановка сканера после успешного считывания
+    controller.pauseCamera();
+  });
+}
+
+
 
   @override
   void dispose() {
@@ -158,3 +193,4 @@ class _QrFirstScreenState extends State<QrFirstScreen> {
     super.dispose();
   }
 }
+

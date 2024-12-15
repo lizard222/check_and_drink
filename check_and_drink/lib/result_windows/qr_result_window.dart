@@ -1,5 +1,7 @@
 import 'package:check_and_drink/auth_windows/registration_window.dart';
 import 'package:check_and_drink/main_windows/favorites_window.dart';
+import 'package:check_and_drink/main_windows/main_menu.dart';
+import 'package:check_and_drink/main_windows/main_window.dart';
 import 'package:check_and_drink/result_windows/qr_more_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,12 +19,6 @@ class QrResultScreen extends StatefulWidget {
 class _QrResultScreenState extends State<QrResultScreen> {
 
 
-  // void addFavorite(String drinkName) {
-  //   setState(() {
-  //     favoriteDrinks.add(drinkName);
-  //      favoriteDrinksStatus.add(true);
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +52,7 @@ class _QrResultScreenState extends State<QrResultScreen> {
                   
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-              SizedBox(height: 10),
+              //SizedBox(height: 5),
 
 
               Container(
@@ -182,7 +178,7 @@ class _QrResultScreenState extends State<QrResultScreen> {
                   ),
            
 
-           SizedBox(height: 20),
+           SizedBox(height: 10),
          Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 1.0), 
                   child: Row(
@@ -244,7 +240,36 @@ class _QrResultScreenState extends State<QrResultScreen> {
                     ],
                   ),
               ),
-           
+              
+              
+              SizedBox(height: 5),
+               ElevatedButton(
+                 style: ElevatedButton.styleFrom(
+                  
+                  backgroundColor: Colors.white, 
+                  foregroundColor: Color.fromARGB(255, 128, 0, 32), 
+                  textStyle: TextStyle(fontSize: 20), 
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15), 
+                  side: BorderSide( 
+                    color: Color.fromARGB(255, 128, 0, 32), 
+                    width: 2, 
+                  ),
+                  shape: RoundedRectangleBorder( 
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  shadowColor: Colors.grey,
+                  elevation: 5,
+                ),
+                child: Text('Закончить обзор'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MainMenuScreen()),
+                  );
+                },
+                
+              ),
+
             ],
           ),
         ),
