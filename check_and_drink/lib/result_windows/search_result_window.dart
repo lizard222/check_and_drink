@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 //import 'bottom_navigation_bar.dart'; 
 
+
 class SearchResultScreen extends StatefulWidget {
   
   
@@ -17,8 +18,7 @@ class SearchResultScreen extends StatefulWidget {
 
 class _SearchResultScreenState extends State<SearchResultScreen> {
 
-  List<String> favoriteDrinks = [];
-  List<bool> favoriteDrinksStatus = [];
+
 
   // void addFavorite(String drinkName) {
   //   setState(() {
@@ -219,18 +219,29 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                         child:  ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Color.fromARGB(255, 251, 188, 5),
-                            foregroundColor: Colors.white,
+                            foregroundColor:  Colors.white, //favoriteDrinks.contains("Franziskaner") ? Colors.black : 
                             minimumSize: const Size(50, 25),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5.0)
                             ),
                           ),
                           onPressed: () {
-                           
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(builder: (context) => FavoritesScreen(initialDrink: "Chateau L’eclair Muscat")),
-                            // );
+                            print("До ${favoriteDrinks}");
+                            print("До ${favoriteDrinksStatus}");
+                            if (favoriteDrinks.contains("Franziskaner")){
+                              int index = favoriteDrinks.indexOf("Franziskaner");
+                              removeFavorite(index);
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Напиток удален из избранного')));
+                            }
+                            else {
+                              addFavorite("Franziskaner");
+                               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Напиток добавлен в избранное!')));
+                            }
+                            print("После ${favoriteDrinks}");
+                            print("После ${favoriteDrinksStatus}");
+                            // favoriteDrinks.clear();
+                            // favoriteDrinksStatus.clear();
+                            
                         },
                           child: const Icon(Icons.favorite),
                         ),

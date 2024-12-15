@@ -16,8 +16,6 @@ class QrResultScreen extends StatefulWidget {
 
 class _QrResultScreenState extends State<QrResultScreen> {
 
-  List<String> favoriteDrinks = [];
-  List<bool> favoriteDrinksStatus = [];
 
   // void addFavorite(String drinkName) {
   //   setState(() {
@@ -225,11 +223,20 @@ class _QrResultScreenState extends State<QrResultScreen> {
                             ),
                           ),
                           onPressed: () {
-                           
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(builder: (context) => FavoritesScreen(initialDrink: "Chateau L’eclair Muscat")),
-                            // );
+                            //addFavorite("Chateau L’eclair Muscat");
+                            print("До ${favoriteDrinks}");
+                            print("До ${favoriteDrinksStatus}");
+                            if (favoriteDrinks.contains("Chateau L’eclair Muscat")){
+                              int index = favoriteDrinks.indexOf("Chateau L’eclair Muscat");
+                              removeFavorite(index);
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Напиток удален из избранного')));
+                            }
+                            else {
+                              addFavorite("Chateau L’eclair Muscat");
+                               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Напиток добавлен в избранное!')));
+                            }
+                            print("После ${favoriteDrinks}");
+                            print("После ${favoriteDrinksStatus}");
                         },
                           child: const Icon(Icons.favorite),
                         ),

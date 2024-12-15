@@ -17,15 +17,7 @@ class FilterResultScreen extends StatefulWidget {
 
 class _FilterResultScreenState extends State<FilterResultScreen> {
 
-  List<String> favoriteDrinks = [];
-  List<bool> favoriteDrinksStatus = [];
 
-  // void addFavorite(String drinkName) {
-  //   setState(() {
-  //     favoriteDrinks.add(drinkName);
-  //      favoriteDrinksStatus.add(true);
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -226,11 +218,19 @@ class _FilterResultScreenState extends State<FilterResultScreen> {
                             ),
                           ),
                           onPressed: () {
-                           
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(builder: (context) => FavoritesScreen(initialDrink: "Chateau L’eclair Muscat")),
-                            // );
+                            print("До ${favoriteDrinks}");
+                            print("До ${favoriteDrinksStatus}");
+                            if (favoriteDrinks.contains("Fess Parker Ashley’s")){
+                              int index = favoriteDrinks.indexOf("Fess Parker Ashley’s");
+                              removeFavorite(index);
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Напиток удален из избранного')));
+                            }
+                            else {
+                              addFavorite("Fess Parker Ashley’s");
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Напиток добавлен в избранное!')));
+                            }
+                            print("После ${favoriteDrinks}");
+                            print("После ${favoriteDrinksStatus}");
                         },
                           child: const Icon(Icons.favorite),
                         ),

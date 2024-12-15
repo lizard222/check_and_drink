@@ -1,56 +1,68 @@
 import 'package:flutter/material.dart';
 import 'bottom_navigation_bar.dart'; // Импортируйте ваш виджет нижней навигационной панели
 
+List<String> favoriteDrinks = [];
+List<bool> favoriteDrinksStatus = [];
+
+void addFavorite(String drinkName){
+
+  if (!favoriteDrinks.contains(drinkName)){
+    favoriteDrinks.add(drinkName);
+    favoriteDrinksStatus.add(true);
+  }  
+  // print(favoriteDrinks);
+  // print(favoriteDrinksStatus);
+}
+
+void removeFavorite(int index){
+      favoriteDrinksStatus.removeAt(index);
+      favoriteDrinks.removeAt(index);
+}
+
 class FavoritesScreen extends StatefulWidget {
-  //final String? initialDrink;
-  
-  const FavoritesScreen();//{this.initialDrink}
-  // List<String> favoriteDrinks = [];
-  // List<bool> favoriteDrinksStatus = [];
-  // final Function(String) addFavorite;
+  const FavoritesScreen();
+
   @override
   _FavoritesScreenState createState() => _FavoritesScreenState();
 }
 
 class _FavoritesScreenState extends State<FavoritesScreen> {
 
-  List<String> favoriteDrinks = [];
-  List<bool> favoriteDrinksStatus = [];
-  
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   if (widget.initialDrink != null) {
-  //     favoriteDrinks.add(widget.initialDrink!);
-  //     favoriteDrinksStatus.add(true);
-  //   }
-  // }
-
-  void addFavorite(String drinkName) {
-    setState(() {
-      favoriteDrinks.add(drinkName);
-       favoriteDrinksStatus.add(true);
-    });
-  }
 
   void removeFavorite(int index) {
     setState(() {
-      favoriteDrinksStatus[index] = false;
+      favoriteDrinksStatus.removeAt(index);
+      favoriteDrinks.removeAt(index);
     });
   }
+
+   bool get _hasFavoriteItems => favoriteDrinks.asMap().entries.any((entry) => favoriteDrinksStatus[entry.key]);
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      appBar: AppBar(
+        title: Text("Избранное", style: TextStyle(color: Color.fromARGB(255, 128, 0, 32))), 
+        backgroundColor: Color(0xFFFFF3E0),  
+        iconTheme: IconThemeData(
+          color: Color.fromARGB(255, 128, 0, 32),
+          size: 30.0,
+        ),
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+        actions: [],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: ListView.builder(
+        child: !favoriteDrinks.isEmpty
+        ? ListView.builder(
           itemCount: favoriteDrinks.length,
           itemBuilder: (context, index) {
             return favoriteDrinksStatus[index] ?  _buildFavoriteItem(context, favoriteDrinks[index], index) : SizedBox();
           },
-        ),
+        ) 
+        : const Center(child: Text("У вас пока нет избранных напитков", style: TextStyle(fontSize: 18))),
       ),
     );
   }
